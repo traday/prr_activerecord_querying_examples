@@ -1,11 +1,6 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
-# Examples:
+# The Join exmple models
 #
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
 
 Category.create!([{name: "Technical"}, {name: "Gossip"}, {name: "Politics"}])
 tech = Category.where(name: "Technical").first
@@ -86,7 +81,17 @@ Client.all.each do |client|
   client.roles = Role.find(ids.uniq)
 
   generator.rand(3).times do
-    Order.create!(product_name: Faker::Commerce.product_name, quantity: generator.rand(10) +1, client: client)
+    Order.create!(product_name: Faker::Commerce.product_name, 
+                  quantity: generator.rand(10) +1, 
+                  client: client)
   end
 end
 
+#
+# A bunch of users to test find_each and find_in_batches
+#
+(1..10000).each do
+  name = Faker::Name.name
+  User.create!(name: name, 
+               username: Faker::Internet.user_name(name))
+end
