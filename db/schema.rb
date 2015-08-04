@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150804164720) do
+ActiveRecord::Schema.define(version: 20150804174403) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "addr1"
@@ -44,9 +44,11 @@ ActiveRecord::Schema.define(version: 20150804164720) do
 
   create_table "clients", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.string   "first_name"
+    t.integer  "orders_count"
+    t.boolean  "locked"
   end
 
   create_table "clients_roles", id: false, force: :cascade do |t|

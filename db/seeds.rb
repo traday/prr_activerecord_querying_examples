@@ -68,7 +68,7 @@ end
 
 (1..20).each do
   name = Faker::Company.name
-  Client.create!(name: name, first_name: name)
+  Client.create!(name: name, first_name: name, locked: false)
 end
 
 generator = Random.new
@@ -88,6 +88,9 @@ Client.all.each do |client|
                   quantity: generator.rand(10) +1, 
                   client: client)
   end
+  client.orders_count = client.orders.count
+  client.locked = true if client.orders_count % 2 == 0
+  client.save!
 end
 
 #
