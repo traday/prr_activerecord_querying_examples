@@ -1,4 +1,13 @@
 #
+# A bunch of users to test find_each and find_in_batches
+#
+(1..10000).each do
+  name = Faker::Name.name
+  User.create!(name: name, 
+               username: Faker::Internet.user_name(name))
+end
+
+#
 # The Join exmple models
 #
 
@@ -84,20 +93,23 @@ Client.all.each do |client|
   client.roles = Role.find(ids.uniq)
 
   generator.rand(3).times do
-    Order.create!(product_name: Faker::Commerce.product_name, 
-                  quantity: generator.rand(10) +1, 
-                  client: client)
+    order = Order.new(product_name: Faker::Commerce.product_name,
+                      quantity: generator.rand(10) +1,
+                      client: client,
+                      price: generator.rand(1000.00))
+
+    if order.price <= 300.00
+      order.status = 'shipped' 
+    elsif order.price <= 700.00
+      order.status = 'awaiting_approval' 
+    else
+      order.status = 'paid' 
+    end
+    order.save!
   end
+  client.viewable_by = User.find(generator.rand(5) + 1).name
   client.orders_count = client.orders.count
   client.locked = true if client.orders_count % 2 == 0
   client.save!
 end
 
-#
-# A bunch of users to test find_each and find_in_batches
-#
-(1..10000).each do
-  name = Faker::Name.name
-  User.create!(name: name, 
-               username: Faker::Internet.user_name(name))
-end

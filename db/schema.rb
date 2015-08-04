@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150804174403) do
+ActiveRecord::Schema.define(version: 20150804190106) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "addr1"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20150804174403) do
     t.string   "first_name"
     t.integer  "orders_count"
     t.boolean  "locked"
+    t.string   "viewable_by"
   end
 
   create_table "clients_roles", id: false, force: :cascade do |t|
@@ -85,10 +86,12 @@ ActiveRecord::Schema.define(version: 20150804174403) do
 
   create_table "orders", force: :cascade do |t|
     t.integer  "client_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.string   "product_name"
     t.integer  "quantity"
+    t.decimal  "price",        precision: 12, scale: 2
+    t.string   "status"
   end
 
   add_index "orders", ["client_id"], name: "index_orders_on_client_id"
