@@ -6,7 +6,15 @@ This repo is just sample data for all the examples on that page so you can run t
 
 ## Getting started
 ```
-  bundle install
+bundle install
 ```
 
+```
+rails c
+```
 
+Run some of the following queries
+
+```
+Client.take
+```
