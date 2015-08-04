@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150803164248) do
+ActiveRecord::Schema.define(version: 20150803235815) do
+
+  create_table "addresses", force: :cascade do |t|
+    t.string   "addr1"
+    t.string   "addr2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.integer  "client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "addresses", ["client_id"], name: "index_addresses_on_client_id"
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
@@ -28,6 +41,20 @@ ActiveRecord::Schema.define(version: 20150803164248) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "clients", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "clients_roles", id: false, force: :cascade do |t|
+    t.integer "role_id",   null: false
+    t.integer "client_id", null: false
+  end
+
+  add_index "clients_roles", ["client_id"], name: "index_clients_roles_on_client_id"
+  add_index "clients_roles", ["role_id"], name: "index_clients_roles_on_role_id"
 
   create_table "comments", force: :cascade do |t|
     t.string   "body"
@@ -46,6 +73,22 @@ ActiveRecord::Schema.define(version: 20150803164248) do
   end
 
   add_index "guests", ["comment_id"], name: "index_guests_on_comment_id"
+
+  create_table "orders", force: :cascade do |t|
+    t.integer  "client_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "product_name"
+    t.integer  "quantity"
+  end
+
+  add_index "orders", ["client_id"], name: "index_orders_on_client_id"
+
+  create_table "roles", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "name"
+  end
 
   create_table "tags", force: :cascade do |t|
     t.string   "name"

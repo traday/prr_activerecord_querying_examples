@@ -12,14 +12,14 @@ tech = Category.where(name: "Technical").first
 gossip = Category.where(name: "Gossip").first
 politics = Category.where(name: "Politics").first
 
-Article.create({title: "Everything you ever wanted to know about querying with Active Record", body: "If you're used to using raw SQL to find database records, then you will generally find that there are better ways to carry out the same operations in Rails. Active Record insulates you from the need to use SQL in most cases.", category: tech})
-Article.create({title: "Active Record queries sometimes return an Active Relation", body: "And that can be confusing at times", category: tech})
+Article.create!({title: "Everything you ever wanted to know about querying with Active Record", body: "If you're used to using raw SQL to find database records, then you will generally find that there are better ways to carry out the same operations in Rails. Active Record insulates you from the need to use SQL in most cases.", category: tech})
+Article.create!({title: "Active Record queries sometimes return an Active Relation", body: "And that can be confusing at times", category: tech})
 
-Article.create({title: "Taylor Swift", body: "I saw a concert about 4 years ago with my daughter and I was impressed with her singing and her message", category: gossip})
-Article.create({title: "Katy Perry", body: "Saw her at the superbowl", category: gossip})
+Article.create!({title: "Taylor Swift", body: "I saw a concert about 4 years ago with my daughter and I was impressed with her singing and her message", category: gossip})
+Article.create!({title: "Katy Perry", body: "Saw her at the superbowl", category: gossip})
 
-Article.create({title: "Political campaigns are getting crazy!", body: "Money + antics, this is going to be a very interesting political election", category: politics})
-Article.create({title: "There are so many candidates", body: "How is anybody supposed to pick one!", category: politics})
+Article.create!({title: "Political campaigns are getting crazy!", body: "Money + antics, this is going to be a very interesting political election", category: politics})
+Article.create!({title: "There are so many candidates", body: "How is anybody supposed to pick one!", category: politics})
 
 tech_articles = Article.where(category: tech)
 a1 = tech_articles.first
@@ -39,6 +39,7 @@ Tag.create!([{name: "Funny", article: a4},
              {name: "Confusing", article: a2}, 
              {name: "Infuriating", article: a6}, 
              {name: "Cool", article: a3}])
+
 adjectives1 = %w{aggressive agile agitated agonizing agreeable ajar alarmed alarming alert alienated alive altruistic}
 adjectives1.each{|adjective| Tag.create!(name: adjective, article:a1)}
 
@@ -63,3 +64,29 @@ adjectives6.each{|adjective| Tag.create!(name: adjective, article:a6)}
   comment = Comment.create!(article: article, body: Faker::Lorem.sentence(2, true, 6))
   Guest.create!(name: Faker::Name.first_name, comment: comment)
 end
+
+
+#
+# Clients and such
+#
+(1..10).each {Role.create!(name: Faker::Commerce.color)}
+
+(1..20).each {Client.create!(name: Faker::Company.name)}
+
+generator = Random.new
+Client.all.each do |client|
+  client.address = Address.create!(addr1: Faker::Address.street_address,
+                                   city: Faker::Address.city,
+                                   state: Faker::Address.state,
+                                   zip: Faker::Address.zip)
+  ids = []
+  (generator.rand(5) + 1).times do
+    ids << generator.rand(10) + 1 #Makes it 1 - 10
+  end
+  client.roles = Role.find(ids.uniq)
+
+  generator.rand(3).times do
+    Order.create!(product_name: Faker::Commerce.product_name, quantity: generator.rand(10) +1, client: client)
+  end
+end
+
