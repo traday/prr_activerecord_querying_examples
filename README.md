@@ -5,10 +5,15 @@ Look at the [Ruby On Rails Active Record Query Guide](http://guides.rubyonrails.
 This repo is just sample data for all the examples on that page so you can run the same examples.
 
 ## Getting started
+
 ```
 bundle install
 ```
-
+When that is done:
+```
+rake db:setup
+```
+Finally, kick off console and query away.
 ```
 rails c
 ```

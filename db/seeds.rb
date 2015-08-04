@@ -66,7 +66,10 @@ end
 #
 (1..10).each {Role.create!(name: Faker::Commerce.color)}
 
-(1..20).each {Client.create!(name: Faker::Company.name)}
+(1..20).each do
+  name = Faker::Company.name
+  Client.create!(name: name, first_name: name)
+end
 
 generator = Random.new
 Client.all.each do |client|

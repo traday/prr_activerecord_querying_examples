@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150804004634) do
+ActiveRecord::Schema.define(version: 20150804164720) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "addr1"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20150804004634) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "first_name"
   end
 
   create_table "clients_roles", id: false, force: :cascade do |t|
@@ -64,6 +65,12 @@ ActiveRecord::Schema.define(version: 20150804004634) do
   end
 
   add_index "comments", ["article_id"], name: "index_comments_on_article_id"
+
+  create_table "empties", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "guests", force: :cascade do |t|
     t.string   "name"
